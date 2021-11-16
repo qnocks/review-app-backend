@@ -9,9 +9,10 @@ import ru.qnocks.reviewapp.service.ReviewService;
 
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/reviews")
-@AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class ReviewRestController {
 
     private final ReviewService reviewService;
@@ -42,3 +43,5 @@ public class ReviewRestController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
+
+
