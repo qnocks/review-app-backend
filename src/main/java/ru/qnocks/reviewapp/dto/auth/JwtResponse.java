@@ -3,15 +3,17 @@ package ru.qnocks.reviewapp.dto.auth;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import ru.qnocks.reviewapp.domain.Review;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 @RequiredArgsConstructor
 public class JwtResponse {
 
     @NonNull
-    private String token;
+    private String accessToken;
 
     private String type = "Bearer";
 
@@ -26,4 +28,7 @@ public class JwtResponse {
 
     @NonNull
     private List<String> roles;
+
+    @NonNull
+    private Set<Review> reviews;
 }

@@ -15,7 +15,7 @@ spring:
 app:
   jwt:
     secret: secretKey
-    expiration-time: 231312
+    expiration-time: 600000
 
   #spring:
   #  datasource:

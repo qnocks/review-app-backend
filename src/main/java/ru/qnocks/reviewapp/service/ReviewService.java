@@ -24,12 +24,14 @@ public class ReviewService {
     }
 
     public Review getById(Long id) {
-        return reviewRepository.findById(id)
+        Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> {
                     String e = "Cannot find Review with id " + id;
                     log.error(e);
                     throw new IllegalArgumentException(e);
                 });
+        System.out.println("getById: + " + id + " : " + review);
+        return review;
     }
 
     public Review create(Review review) {
