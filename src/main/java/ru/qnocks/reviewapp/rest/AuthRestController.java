@@ -1,7 +1,6 @@
 package ru.qnocks.reviewapp.rest;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,13 +35,13 @@ public class AuthRestController {
 
     private final AuthenticationManager authenticationManager;
 
+    private final JwtUtils jwtUtils;
+
     private final UserRepository userRepository;
 
     private final RoleRepository roleRepository;
 
     private final PasswordEncoder encoder;
-
-    private final JwtUtils jwtUtils;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {

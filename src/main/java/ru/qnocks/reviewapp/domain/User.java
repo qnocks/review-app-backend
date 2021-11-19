@@ -29,8 +29,8 @@ public class User {
 
     private String imageUrl;
 
-//    @JsonIgnore
     @NonNull
+    @JsonIgnore
     @Column(name = "password")
     private String password;
 
@@ -40,7 +40,7 @@ public class User {
     @Column(name = "active")
     private Boolean active = true;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable
             (name = "user_role",
             joinColumns = @JoinColumn(name = "usr_id", referencedColumnName = "id"),

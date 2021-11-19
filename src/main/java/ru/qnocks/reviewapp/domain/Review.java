@@ -3,9 +3,9 @@ package ru.qnocks.reviewapp.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Entity
@@ -32,6 +32,7 @@ public class Review {
     @OneToMany(mappedBy = "review")
     private Set<Comment> comments;
 
+    @Length(max = 100000)
     @Column(name = "text")
     private String text;
 

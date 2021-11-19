@@ -17,7 +17,8 @@ public class UserService {
     private final UserRepository userRepository;
 
     public List<User> getAll() {
-        return userRepository.findAll();
+        List<User> all = userRepository.findAll();
+        return all;
     }
 
     public User getById(Long id) {
@@ -35,7 +36,7 @@ public class UserService {
 
     public User update(Long id, User user) {
         User existingUser = getById(id);
-        BeanUtils.copyProperties(user, existingUser, "id");
+        BeanUtils.copyProperties(user, existingUser, "id", "password");
         userRepository.save(existingUser);
         return existingUser;
     }
