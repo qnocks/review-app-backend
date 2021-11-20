@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import ru.qnocks.reviewapp.domain.User;
+import ru.qnocks.reviewapp.security.UserDetailsImpl;
 import ru.qnocks.reviewapp.service.UserService;
 
 import java.util.List;
@@ -37,8 +39,15 @@ public class UserRestController {
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<User> update(@PathVariable("id") Long id, @RequestBody User user) {
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<User> update(@PathVariable("id") Long id,
+                                       @RequestBody User user,
+                                       @AuthenticationPrincipal UserDetailsImpl loggedUser) {
+
+//        loggedUser.setUsername(user.getUsername());
+//        loggedUser.setEmail(user.getEmail());
+
+
         return new ResponseEntity<>(userService.update(id, user), HttpStatus.OK);
     }
 

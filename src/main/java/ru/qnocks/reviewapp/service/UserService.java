@@ -3,6 +3,7 @@ package ru.qnocks.reviewapp.service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.qnocks.reviewapp.domain.User;
 import ru.qnocks.reviewapp.repository.UserRepository;
@@ -15,6 +16,8 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+
+    private final PasswordEncoder passwordEncoder;
 
     public List<User> getAll() {
         List<User> all = userRepository.findAll();
@@ -36,7 +39,16 @@ public class UserService {
 
     public User update(Long id, User user) {
         User existingUser = getById(id);
-        BeanUtils.copyProperties(user, existingUser, "id", "password");
+
+        if (user.getRoles().isEmpty()) {
+            existingUser.setUsername(user.getUsername());
+            existingUser.setEmail(user.getEmail());
+            existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        else {
+            BeanUtils.copyProperties(user, existingUser, "id", "password");
+        }
+
         userRepository.save(existingUser);
         return existingUser;
     }

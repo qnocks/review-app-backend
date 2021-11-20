@@ -30,7 +30,7 @@ public class User {
     private String imageUrl;
 
     @NonNull
-    @JsonIgnore
+//    @JsonIgnore
     @Column(name = "password")
     private String password;
 
