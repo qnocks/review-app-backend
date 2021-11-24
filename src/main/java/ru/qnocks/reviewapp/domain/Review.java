@@ -29,9 +29,6 @@ public class Review {
     @Column(name = "content_name")
     private String contentName;
 
-    @OneToMany(mappedBy = "review")
-    private Set<Comment> comments;
-
     @Length(max = 100000)
     @Column(name = "text")
     private String text;
@@ -47,6 +44,9 @@ public class Review {
 
     @Column(name = "images_link")
     private String imagesLink;
+
+    @OneToMany(mappedBy = "review")
+    private Set<Comment> comments;
 
     @ManyToMany
     @JoinTable(

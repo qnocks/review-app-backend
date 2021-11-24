@@ -4,11 +4,16 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ru.qnocks.reviewapp.domain.Review;
+import ru.qnocks.reviewapp.security.UserDetailsImpl;
 import ru.qnocks.reviewapp.service.ReviewService;
 
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @RestController
@@ -31,8 +36,9 @@ public class ReviewRestController {
 
     @PostMapping
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<Review> create(@RequestBody Review review) {
-        return new ResponseEntity<>(reviewService.create(review), HttpStatus.CREATED);
+    public ResponseEntity<Review> create(@RequestBody Review review,
+                                         @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return new ResponseEntity<>(reviewService.create(review, userDetails), HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")

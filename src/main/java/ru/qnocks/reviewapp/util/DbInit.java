@@ -99,7 +99,6 @@ public class DbInit implements CommandLineRunner {
         roleRepository.deleteAll();
         log.info("DELETED TEST DATA");
 
-
         reviewRepository.saveAll(reviews);
         roleRepository.saveAll(roles);
         userRepository.saveAll(users);

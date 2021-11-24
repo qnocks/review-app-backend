@@ -29,6 +29,8 @@ public class UserDetailsImpl implements UserDetails {
     @JsonIgnore
     private String password;
 
+    private boolean active;
+
     private Collection<? extends GrantedAuthority> authorities;
 
     private Set<Review> reviews;
@@ -43,6 +45,7 @@ public class UserDetailsImpl implements UserDetails {
                 user.getUsername(),
                 user.getEmail(),
                 user.getPassword(),
+                user.getActive(),
                 authorities,
                 user.getReviews());
     }
@@ -83,6 +86,6 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return active;
     }
 }

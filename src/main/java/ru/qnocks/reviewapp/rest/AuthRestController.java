@@ -1,11 +1,16 @@
 package ru.qnocks.reviewapp.rest;
 
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -30,18 +35,25 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "http://localhost:3000")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthRestController {
 
+    @NonNull
     private final AuthenticationManager authenticationManager;
 
+    @NonNull
     private final JwtUtils jwtUtils;
 
+    @NonNull
     private final UserRepository userRepository;
 
+    @NonNull
     private final RoleRepository roleRepository;
 
+    @NonNull
     private final PasswordEncoder encoder;
+
+    private JwtResponse currentUser;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -58,12 +70,14 @@ public class AuthRestController {
 
         Set<Review> reviews = userDetails.getReviews();
 
-        return ResponseEntity.ok(new JwtResponse(jwt,
+        currentUser = new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
                 roles,
-                reviews));
+                reviews);
+
+        return ResponseEntity.ok(currentUser);
     }
 
     @PostMapping("/signup")
@@ -112,4 +126,14 @@ public class AuthRestController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
+    @GetMapping("/user")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<JwtResponse> getCurrentUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(IllegalAccessError::new);
+
+        currentUser.setReviews(user.getReviews());
+
+        return new ResponseEntity<>(currentUser, HttpStatus.OK);
+    }
 }

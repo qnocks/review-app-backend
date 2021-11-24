@@ -40,14 +40,7 @@ public class UserRestController {
 
     @PutMapping("{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<User> update(@PathVariable("id") Long id,
-                                       @RequestBody User user,
-                                       @AuthenticationPrincipal UserDetailsImpl loggedUser) {
-
-//        loggedUser.setUsername(user.getUsername());
-//        loggedUser.setEmail(user.getEmail());
-
-
+    public ResponseEntity<User> update(@PathVariable("id") Long id, @RequestBody User user) {
         return new ResponseEntity<>(userService.update(id, user), HttpStatus.OK);
     }
 
