@@ -1,15 +1,21 @@
 package ru.qnocks.reviewapp.rest;
 
+import lombok.RequiredArgsConstructor;
+import org.hibernate.search.jpa.Search;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.qnocks.reviewapp.domain.Review;
+import ru.qnocks.reviewapp.service.SearchService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/test")
+@RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 public class TestRestController {
+
+    private final SearchService searchService;
 
     @GetMapping("/all")
     public String allAccess() {
@@ -26,5 +32,10 @@ public class TestRestController {
     @PreAuthorize("hasRole('ADMIN')")
     public String adminAccess() {
         return "Admin Board.";
+    }
+
+    @GetMapping("/search")
+    public List<Review> getReviews(@RequestParam("search") String search) {
+        return searchService.findReviews(search);
     }
 }

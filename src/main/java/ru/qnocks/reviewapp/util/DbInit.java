@@ -1,16 +1,15 @@
 package ru.qnocks.reviewapp.util;
 
+import com.github.javafaker.Faker;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import ru.qnocks.reviewapp.domain.Content;
-import ru.qnocks.reviewapp.domain.Review;
-import ru.qnocks.reviewapp.domain.Role;
-import ru.qnocks.reviewapp.domain.User;
+import ru.qnocks.reviewapp.domain.*;
 import ru.qnocks.reviewapp.repository.ReviewRepository;
 import ru.qnocks.reviewapp.repository.RoleRepository;
+import ru.qnocks.reviewapp.repository.TagRepository;
 import ru.qnocks.reviewapp.repository.UserRepository;
 
 import java.util.List;
@@ -27,10 +26,14 @@ public class DbInit implements CommandLineRunner {
 
     private final RoleRepository roleRepository;
 
+    private final TagRepository tagRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) {
+
+
 
         List<Role> roles = List.of(
                 new Role("ROLE_USER"),
@@ -42,10 +45,16 @@ public class DbInit implements CommandLineRunner {
                 " justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi.";
 
         Review review1 = new Review();
-            review1.setName("Есть ли разница между Францем и Apache Kafka");
+
+//        Tag tag = new Tag(0L, "звездные войны", Set.of(review1));
+
+            review1.setRusName("Есть ли разница между Францем и Apache Kafka");
             review1.setContent(Content.BOOK);
             review1.setContentName("Замок");
             review1.setText(text);
+//            review1.setTags(Set.of(tag));
+
+//        tagRepository.save(tag);
 
         Review review2 = new Review();
             review2.setName("Есть ли разница между 2 и 2");
@@ -98,6 +107,14 @@ public class DbInit implements CommandLineRunner {
         userRepository.deleteAll();
         roleRepository.deleteAll();
         log.info("DELETED TEST DATA");
+
+        Faker faker = new Faker();
+        for (int i = 0; i < 100; i++) {
+            Review review = new Review();
+            review.setName(faker.harryPotter().quote());
+            review.setText(faker.yoda().quote());
+            reviewRepository.save(review);
+        }
 
         reviewRepository.saveAll(reviews);
         roleRepository.saveAll(roles);

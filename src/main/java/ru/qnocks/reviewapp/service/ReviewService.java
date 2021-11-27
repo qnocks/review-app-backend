@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-
 @Transactional
 @Service
 @Slf4j
@@ -32,8 +31,7 @@ public class ReviewService {
     private final RoleRepository roleRepository;
 
     public List<Review> getAll() {
-        List<Review> all = reviewRepository.findAll();
-        return all;
+        return reviewRepository.findAll();
     }
 
     public Review getById(Long id) {

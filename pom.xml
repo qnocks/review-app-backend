@@ -35,14 +35,14 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-<!--        Jwt -->
+        <!--        Jwt -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
         </dependency>
 
-<!--        Database -->
+        <!--        Database -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -54,7 +54,15 @@
             <scope>runtime</scope>
         </dependency>
 
-<!--        Test -->
+        <!--        Search -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-search</artifactId>
+            <version>5.11.8.Final</version>
+        </dependency>
+
+
+        <!--        Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -65,13 +73,19 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>1.0.2</version>
+        </dependency>
 
-<!--        Tools -->
+        <!--        Tools -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+
     </dependencies>
 
     <build>
