@@ -1,14 +1,16 @@
 package ru.qnocks.reviewapp.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
 import org.apache.lucene.analysis.snowball.SnowballPorterFilterFactory;
 import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
-import org.hibernate.search.annotations.*;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Parameter;
+import org.hibernate.search.annotations.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -39,6 +41,7 @@ import java.util.Set;
         }
 )
 @Data
+@EqualsAndHashCode(of = "id")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Review {
@@ -52,11 +55,6 @@ public class Review {
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String name;
 
-    @Column(name = "rus_name")
-    @Analyzer(definition = "rus")
-    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
-    private String rusName;
-
     @Enumerated(value = EnumType.STRING)
     @Column(name = "content")
     @Analyzer(definition = "eng")
@@ -69,7 +67,7 @@ public class Review {
     private String contentName;
 
     @Length(max = 100000)
-    @Column(name = "text")
+    @Column(name = "txt")
     @Analyzer(definition = "eng")
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String text;
@@ -86,8 +84,15 @@ public class Review {
     @Column(name = "images_link")
     private String imagesLink;
 
-    @OneToMany(mappedBy = "review")
-    private Set<Comment> comments;
+//    @OneToMany(mappedBy = "review")
+//    private Set<Comment> comments;
+
+//    @JsonBackReference
+//    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
     @IndexedEmbedded
     @ManyToMany

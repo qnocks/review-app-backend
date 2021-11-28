@@ -33,7 +33,7 @@ public class SearchService {
 
         Query query = queryBuilder
                 .keyword()
-                .onFields("name", "text")
+                .onFields("name", "text", "contentName")
                 .matching(text)
                 .createQuery();
 

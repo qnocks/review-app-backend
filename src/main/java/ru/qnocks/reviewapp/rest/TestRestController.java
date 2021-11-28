@@ -5,9 +5,15 @@ import org.hibernate.search.jpa.Search;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.qnocks.reviewapp.domain.Review;
+import ru.qnocks.reviewapp.dto.ReviewDto;
+import ru.qnocks.reviewapp.dto.UserDto;
+import ru.qnocks.reviewapp.service.DtoMapperService;
+import ru.qnocks.reviewapp.service.ReviewService;
 import ru.qnocks.reviewapp.service.SearchService;
+import ru.qnocks.reviewapp.service.UserService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/test")
@@ -16,6 +22,12 @@ import java.util.List;
 public class TestRestController {
 
     private final SearchService searchService;
+
+    private final ReviewService reviewService;
+
+    private final UserService userService;
+
+    private final DtoMapperService mapperService;
 
     @GetMapping("/all")
     public String allAccess() {
@@ -37,5 +49,19 @@ public class TestRestController {
     @GetMapping("/search")
     public List<Review> getReviews(@RequestParam("search") String search) {
         return searchService.findReviews(search);
+    }
+
+    @GetMapping("/reviews")
+    public List<ReviewDto> getAllReviews() {
+        return reviewService.getAll().stream()
+                .map(mapperService::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/users")
+    public List<UserDto> getAllUsers() {
+        return userService.getAll().stream()
+                .map(mapperService::toDto)
+                .collect(Collectors.toList());
     }
 }

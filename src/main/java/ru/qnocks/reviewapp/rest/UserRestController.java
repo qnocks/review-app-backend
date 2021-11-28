@@ -4,13 +4,14 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import ru.qnocks.reviewapp.domain.User;
-import ru.qnocks.reviewapp.security.UserDetailsImpl;
+import ru.qnocks.reviewapp.dto.UserDto;
+import ru.qnocks.reviewapp.service.DtoMapperService;
 import ru.qnocks.reviewapp.service.UserService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -20,28 +21,38 @@ public class UserRestController {
 
     private final UserService userService;
 
+    private final DtoMapperService mapperService;
+
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<User>> list() {
-        return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
+    public ResponseEntity<List<UserDto>> list() {
+        List<UserDto> users = userService.getAll().stream()
+                .map(mapperService::toDto)
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping("{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<User> show(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(userService.getById(id), HttpStatus.OK);
+    public ResponseEntity<UserDto> show(@PathVariable("id") Long id) {
+        UserDto user = mapperService.toDto(userService.getById(id));
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<User> create(@RequestBody User user) {
-        return new ResponseEntity<>(userService.create(user), HttpStatus.CREATED);
+    public ResponseEntity<UserDto> create(@RequestBody UserDto userDto) {
+        User user = mapperService.toEntity(userDto);
+        User savedUser = userService.create(user);
+        return new ResponseEntity<>(mapperService.toDto(savedUser), HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<User> update(@PathVariable("id") Long id, @RequestBody User user) {
-        return new ResponseEntity<>(userService.update(id, user), HttpStatus.OK);
+    public ResponseEntity<UserDto> update(@PathVariable("id") Long id, @RequestBody UserDto userDto) {
+        User user = mapperService.toEntity(userDto);
+        User updatedUser = userService.update(id, user);
+        return new ResponseEntity<>(mapperService.toDto(updatedUser), HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")

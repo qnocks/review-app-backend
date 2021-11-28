@@ -13,6 +13,5 @@ public enum Content {
 
     GAME("game");
 
-
     private final String name;
 }

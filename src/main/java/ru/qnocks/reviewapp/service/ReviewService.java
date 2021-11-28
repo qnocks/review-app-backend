@@ -2,10 +2,12 @@ package ru.qnocks.reviewapp.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Hibernate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.qnocks.reviewapp.domain.AuthProvider;
 import ru.qnocks.reviewapp.domain.Review;
 import ru.qnocks.reviewapp.domain.Role;
 import ru.qnocks.reviewapp.domain.User;
@@ -18,8 +20,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Transactional
 @Service
+@Transactional
 @Slf4j
 @AllArgsConstructor
 public class ReviewService {
@@ -34,6 +36,7 @@ public class ReviewService {
         return reviewRepository.findAll();
     }
 
+    @Transactional
     public Review getById(Long id) {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> {
@@ -45,6 +48,7 @@ public class ReviewService {
         return review;
     }
 
+    @Transactional
     public Review create(Review review, UserDetailsImpl userDetails) {
         Long id = userDetails.getId();
         String username = userDetails.getUsername();
@@ -52,19 +56,21 @@ public class ReviewService {
         String password = userDetails.getPassword();
 
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
-
         Set<Role> roles = authorities.stream()
                 .map(role -> roleRepository.findByName(role.getAuthority()).orElseThrow(IllegalArgumentException::new))
                 .collect(Collectors.toSet());
 
-        Set<Review> reviews = userDetails.getReviews();
+        Set<Review> reviews = review.getUser().getReviews();
+//        Set<Review> reviews = userDetails.getReviews();
         reviews.add(review);
 
-//        Review createdReview = reviewRepository.save(review);
+        Review createdReview = reviewRepository.save(review);
 
-        userService.update(id, new User(id, username, email, null, password, null, true, roles, reviews));
+//        userService.update(id, new User(id, username, email, password, true, roles, reviews));
+//        userService.update(id, new User(id, username, email, null, password,  true, roles, reviews));
 
-        return review;
+//        return review;
+        return createdReview;
     }
 
     public Review update(Long id, Review review) {

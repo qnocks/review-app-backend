@@ -10,6 +10,8 @@ import ru.qnocks.reviewapp.domain.Content;
 @AllArgsConstructor
 public class ReviewDto {
 
+    private Long id;
+
     private String name;
 
     private Content content;
@@ -25,4 +27,6 @@ public class ReviewDto {
     private Integer likes;
 
     private String imagesLink;
+
+    private Long userId;
 }
