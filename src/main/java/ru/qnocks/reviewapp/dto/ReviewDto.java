@@ -1,13 +1,20 @@
 package ru.qnocks.reviewapp.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 import ru.qnocks.reviewapp.domain.Content;
 
-@Data
+import javax.xml.bind.annotation.XmlSeeAlso;
+import java.util.HashSet;
+import java.util.Set;
+
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = "tags")
+@EqualsAndHashCode(of = "id")
 public class ReviewDto {
 
     private Long id;
@@ -29,4 +36,7 @@ public class ReviewDto {
     private String imagesLink;
 
     private Long userId;
+
+    @JsonManagedReference
+    private Set<TagDto> tags = new HashSet<>();
 }

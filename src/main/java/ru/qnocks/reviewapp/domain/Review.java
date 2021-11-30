@@ -1,10 +1,8 @@
 package ru.qnocks.reviewapp.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
 import org.apache.lucene.analysis.snowball.SnowballPorterFilterFactory;
 import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
@@ -40,7 +38,10 @@ import java.util.Set;
                 })
         }
 )
-@Data
+//@Data
+@Getter
+@Setter
+@ToString(exclude = {"user", "tags"})
 @EqualsAndHashCode(of = "id")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -90,7 +91,8 @@ public class Review {
 //    @JsonBackReference
 //    @ManyToOne(fetch = FetchType.EAGER, optional = false)
 
-    @JsonIgnore
+//    @JsonIgnore
+//    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 

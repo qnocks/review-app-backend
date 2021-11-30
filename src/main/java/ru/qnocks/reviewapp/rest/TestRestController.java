@@ -1,7 +1,6 @@
 package ru.qnocks.reviewapp.rest;
 
 import lombok.RequiredArgsConstructor;
-import org.hibernate.search.jpa.Search;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.qnocks.reviewapp.domain.Review;
@@ -26,6 +25,8 @@ public class TestRestController {
     private final ReviewService reviewService;
 
     private final UserService userService;
+
+//    private final TagRepository tagRepository;
 
     private final DtoMapperService mapperService;
 
@@ -64,4 +65,11 @@ public class TestRestController {
                 .map(mapperService::toDto)
                 .collect(Collectors.toList());
     }
+
+//    @GetMapping("/tags")
+//    public List<TagDto> getAllTags() {
+//        return tagRepository.findAll().stream()
+//                .map(mapperService::toDto)
+//                .collect(Collectors.toList());
+//    }
 }

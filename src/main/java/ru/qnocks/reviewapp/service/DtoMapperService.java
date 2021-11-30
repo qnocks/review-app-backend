@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.qnocks.reviewapp.domain.Review;
+import ru.qnocks.reviewapp.domain.Tag;
 import ru.qnocks.reviewapp.domain.User;
 import ru.qnocks.reviewapp.dto.ReviewDto;
 import ru.qnocks.reviewapp.dto.UserDto;
@@ -44,11 +45,18 @@ public class DtoMapperService {
     }
 
     public UserDto toDto(User user) {
-        UserDto userDto = mapper.map(user, UserDto.class);
-        return userDto;
+        return mapper.map(user, UserDto.class);
     }
 
     public User toEntity(UserDto userDto) {
         return mapper.map(userDto, User.class);
     }
+
+//    public Tag toEntity(TagDto tagDto) {
+//        return mapper.map(tagDto, Tag.class);
+//    }
+//
+//    public TagDto toDto(Tag tag) {
+//        return mapper.map(tag, TagDto.class);
+//    }
 }

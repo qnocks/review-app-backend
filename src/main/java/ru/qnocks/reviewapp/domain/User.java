@@ -9,8 +9,10 @@ import java.util.Set;
 
 @Entity
 @Table(name = "usr")
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(of = "id")
+@ToString(exclude = "reviews")
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
@@ -57,15 +59,4 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 //    @JoinColumn(name = "usr_id")
     private Set<Review> reviews = new HashSet<>();
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", active=" + active +
-                '}';
-    }
 }

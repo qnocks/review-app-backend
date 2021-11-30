@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.qnocks.reviewapp.domain.Review;
 import ru.qnocks.reviewapp.domain.Role;
 import ru.qnocks.reviewapp.domain.User;
+import ru.qnocks.reviewapp.dto.ReviewDto;
 import ru.qnocks.reviewapp.dto.auth.JwtResponse;
 import ru.qnocks.reviewapp.dto.auth.LoginRequest;
 import ru.qnocks.reviewapp.dto.auth.MessageResponse;
@@ -25,6 +26,7 @@ import ru.qnocks.reviewapp.repository.RoleRepository;
 import ru.qnocks.reviewapp.repository.UserRepository;
 import ru.qnocks.reviewapp.security.UserDetailsImpl;
 import ru.qnocks.reviewapp.security.jwt.JwtUtils;
+import ru.qnocks.reviewapp.service.DtoMapperService;
 
 import javax.validation.Valid;
 import java.util.HashSet;
@@ -43,6 +45,9 @@ public class AuthRestController {
 
     @NonNull
     private final JwtUtils jwtUtils;
+
+    @NonNull
+    private final DtoMapperService mapperService;
 
     @NonNull
     private final UserRepository userRepository;
@@ -69,13 +74,16 @@ public class AuthRestController {
                 .collect(Collectors.toList());
 
         Set<Review> reviews = userDetails.getReviews();
+        Set<ReviewDto> reviewDtos = reviews.stream()
+                .map(mapperService::toDto)
+                .collect(Collectors.toSet());
 
         currentUser = new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
                 roles,
-                reviews);
+                reviewDtos);
 
         return ResponseEntity.ok(currentUser);
     }
@@ -132,7 +140,12 @@ public class AuthRestController {
         User user = userRepository.findByUsername(userDetails.getUsername())
                 .orElseThrow(IllegalAccessError::new);
 
-        currentUser.setReviews(user.getReviews());
+        Set<Review> reviews = user.getReviews();
+        Set<ReviewDto> reviewDtos = reviews.stream()
+                .map(mapperService::toDto)
+                .collect(Collectors.toSet());
+
+        currentUser.setReviews(reviewDtos);
 
         return new ResponseEntity<>(currentUser, HttpStatus.OK);
     }

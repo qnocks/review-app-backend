@@ -50,27 +50,17 @@ public class ReviewService {
 
     @Transactional
     public Review create(Review review, UserDetailsImpl userDetails) {
-        Long id = userDetails.getId();
-        String username = userDetails.getUsername();
-        String email = userDetails.getEmail();
-        String password = userDetails.getPassword();
-
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
         Set<Role> roles = authorities.stream()
                 .map(role -> roleRepository.findByName(role.getAuthority()).orElseThrow(IllegalArgumentException::new))
                 .collect(Collectors.toSet());
 
         Set<Review> reviews = review.getUser().getReviews();
-//        Set<Review> reviews = userDetails.getReviews();
         reviews.add(review);
 
-        Review createdReview = reviewRepository.save(review);
-
 //        userService.update(id, new User(id, username, email, password, true, roles, reviews));
-//        userService.update(id, new User(id, username, email, null, password,  true, roles, reviews));
 
-//        return review;
-        return createdReview;
+        return reviewRepository.save(review);
     }
 
     public Review update(Long id, Review review) {

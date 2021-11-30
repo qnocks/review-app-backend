@@ -21,10 +21,10 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public List<User> getAll() {
-        List<User> all = userRepository.findAll();
-        return all;
+        return userRepository.findAll();
     }
 
+    @Transactional
     public User getById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> {
@@ -34,6 +34,7 @@ public class UserService {
                 });
     }
 
+    @Transactional
     public User create(User review) {
         return userRepository.save(review);
     }
@@ -55,6 +56,7 @@ public class UserService {
         return existingUser;
     }
 
+    @Transactional
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
