@@ -19,6 +19,6 @@ public class TagDto {
 
     private String name;
 
-    @JsonIgnore
+//    @JsonBackReference
     private Set<ReviewDto> reviews = new HashSet<>();
 }

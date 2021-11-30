@@ -41,7 +41,7 @@ import java.util.Set;
 //@Data
 @Getter
 @Setter
-@ToString(exclude = {"user", "tags"})
+//@ToString(exclude = {"user", "tags"})
 @EqualsAndHashCode(of = "id")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -91,7 +91,7 @@ public class Review {
 //    @JsonBackReference
 //    @ManyToOne(fetch = FetchType.EAGER, optional = false)
 
-//    @JsonIgnore
+    @JsonIgnore
 //    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;

@@ -9,9 +9,10 @@ import java.util.Set;
 
 @Entity
 @Table(name = "tag")
-@Getter
-@Setter
-@ToString(exclude = "reviews")
+@Data
+//@Getter
+//@Setter
+//@ToString(exclude = "reviews")
 @EqualsAndHashCode(of = "id")
 @NoArgsConstructor
 @AllArgsConstructor

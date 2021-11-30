@@ -19,6 +19,8 @@ public class UserDto {
 
     private String email;
 
+    private String password;
+
     private Boolean active;
 
     private Set<Role> roles = new HashSet<>();

@@ -3,7 +3,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-ru/qnocks/reviewapp/domain
+ru.qnocks.reviewapp.domain.Review
 
 ### STS ###
 .apt_generated
