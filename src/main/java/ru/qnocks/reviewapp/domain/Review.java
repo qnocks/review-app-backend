@@ -2,6 +2,7 @@ package ru.qnocks.reviewapp.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
 import org.apache.lucene.analysis.snowball.SnowballPorterFilterFactory;
@@ -38,10 +39,9 @@ import java.util.Set;
                 })
         }
 )
-//@Data
 @Getter
 @Setter
-//@ToString(exclude = {"user", "tags"})
+@ToString(exclude = {"user", "tags"})
 @EqualsAndHashCode(of = "id")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -52,24 +52,24 @@ public class Review {
     private Long id;
 
     @Column(name = "name")
-    @Analyzer(definition = "eng")
+//    @Analyzer(definition = "eng")
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String name;
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "content")
-    @Analyzer(definition = "eng")
+//    @Analyzer(definition = "eng")
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private Content content;
 
     @Column(name = "content_name")
-    @Analyzer(definition = "eng")
+//    @Analyzer(definition = "eng")
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String contentName;
 
     @Length(max = 100000)
     @Column(name = "txt")
-    @Analyzer(definition = "eng")
+//    @Analyzer(definition = "eng")
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String text;
 
@@ -91,11 +91,12 @@ public class Review {
 //    @JsonBackReference
 //    @ManyToOne(fetch = FetchType.EAGER, optional = false)
 
-    @JsonIgnore
-//    @JsonBackReference
+//    @JsonIgnore
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+    @JsonIgnoreProperties("reviews")
     @IndexedEmbedded
     @ManyToMany
     @JoinTable(

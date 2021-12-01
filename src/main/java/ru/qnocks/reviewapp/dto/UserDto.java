@@ -1,14 +1,16 @@
 package ru.qnocks.reviewapp.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.qnocks.reviewapp.domain.Role;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+//@Data
+@Getter
+@Setter
+@ToString(exclude = "reviews")
+@EqualsAndHashCode(of = "id")
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {

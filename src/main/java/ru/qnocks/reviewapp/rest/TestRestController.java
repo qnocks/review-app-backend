@@ -49,7 +49,8 @@ public class TestRestController {
 
     @GetMapping("/search")
     public List<Review> getReviews(@RequestParam("search") String search) {
-        return searchService.findReviews(search);
+        List<Review> reviews = searchService.findReviews(search);
+        return reviews;
     }
 
     @GetMapping("/reviews")

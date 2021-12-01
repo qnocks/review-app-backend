@@ -41,6 +41,8 @@ public class SearchService {
 
         List<Review> reviews = null;
 
-        return (List<Review>) jpaQuery.getResultList();
+        reviews = jpaQuery.getResultList();
+
+        return reviews;
     }
 }
