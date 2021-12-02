@@ -1,7 +1,10 @@
 package ru.qnocks.reviewapp.domain;
 
 import lombok.*;
+import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Store;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -22,7 +25,7 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Field
+    @Field(name = "name", index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     @Column(name = "name")
     private String name;
 

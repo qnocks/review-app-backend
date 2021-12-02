@@ -1,15 +1,14 @@
 package ru.qnocks.reviewapp.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
 import org.apache.lucene.analysis.snowball.SnowballPorterFilterFactory;
 import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
+import org.hibernate.search.annotations.*;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Parameter;
-import org.hibernate.search.annotations.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -59,7 +58,8 @@ public class Review {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "content")
 //    @Analyzer(definition = "eng")
-    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+//    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+    @IndexedEmbedded
     private Content content;
 
     @Column(name = "content_name")
@@ -97,7 +97,7 @@ public class Review {
     private User user;
 
     @JsonIgnoreProperties("reviews")
-    @IndexedEmbedded
+    @IndexedEmbedded(includePaths = {"name"})
     @ManyToMany
     @JoinTable(
             name = "review_tag",

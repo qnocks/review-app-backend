@@ -6,13 +6,13 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.5.6</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
     <groupId>ru.qnocks</groupId>
     <artifactId>review-app</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>review-app</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Reviews application based on Spring Boot</description>
     <properties>
         <java.version>11</java.version>
     </properties>
@@ -35,14 +35,14 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!--        Jwt -->
+<!--        Jwt -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
         </dependency>
 
-        <!--        Database -->
+<!--        Database -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -54,21 +54,31 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!--        Search -->
+<!--        Search -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-search</artifactId>
             <version>5.11.8.Final</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.hibernate.search</groupId>-->
+<!--            <artifactId>hibernate-search-mapper-orm</artifactId>-->
+<!--            <version>6.0.7.Final</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.hibernate.search</groupId>-->
+<!--            <artifactId>hibernate-search-backend-lucene</artifactId>-->
+<!--            <version>6.0.7.Final</version>-->
+<!--        </dependency>-->
 
-        <!--        Mapping -->
+<!--        Mapping -->
         <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
             <version>2.4.4</version>
         </dependency>
 
-        <!--        Test -->
+<!--        Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -85,7 +95,7 @@
             <version>1.0.2</version>
         </dependency>
 
-        <!--        Tools -->
+<!--        Utils -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

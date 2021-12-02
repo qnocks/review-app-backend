@@ -12,9 +12,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import ru.qnocks.reviewapp.security.UserDetailsServiceImpl;
 import ru.qnocks.reviewapp.security.jwt.AuthEntryPointJwt;
 import ru.qnocks.reviewapp.security.jwt.AuthTokenFilter;
-import ru.qnocks.reviewapp.security.UserDetailsServiceImpl;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)

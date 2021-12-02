@@ -6,9 +6,9 @@ spring:
 #    driver-class-name: org.h2.Driver
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/review_app
-    username: postgres
-    password: qnocks
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/review_app}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:qnocks}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -26,5 +26,5 @@ spring:
 
 app:
   jwt:
-    secret: secretKey
+    secret: ${jwtSecret}
     expiration-time: 600000
