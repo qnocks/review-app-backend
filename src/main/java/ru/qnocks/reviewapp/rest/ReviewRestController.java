@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/reviews")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "https://review-frontend-app.herokuapp.com"})
 public class ReviewRestController {
 
     private final ReviewService reviewService;

@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "https://review-frontend-app.herokuapp.com"})
 @RequiredArgsConstructor
 public class AuthRestController {
 
