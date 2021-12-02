@@ -15,6 +15,7 @@
     <description>Reviews application based on Spring Boot</description>
     <properties>
         <java.version>11</java.version>
+        <spring.boot.maven.plugin>2.5.6</spring.boot.maven.plugin>
     </properties>
     <dependencies>
 <!--        Spring -->
@@ -108,6 +109,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring.boot.maven.plugin}</version>
                 <configuration>
                     <excludes>
                         <exclude>
