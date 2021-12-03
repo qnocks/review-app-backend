@@ -13,6 +13,7 @@ import ru.qnocks.reviewapp.domain.Role;
 import ru.qnocks.reviewapp.domain.User;
 import ru.qnocks.reviewapp.repository.ReviewRepository;
 import ru.qnocks.reviewapp.repository.RoleRepository;
+import ru.qnocks.reviewapp.repository.TagRepository;
 import ru.qnocks.reviewapp.security.UserDetailsImpl;
 
 import java.util.Collection;
@@ -31,6 +32,8 @@ public class ReviewService {
     private final UserService userService;
 
     private final RoleRepository roleRepository;
+
+    private final TagRepository tagRepository;
 
     public List<Review> getAll() {
         return reviewRepository.findAll();
@@ -60,14 +63,19 @@ public class ReviewService {
 
 //        userService.update(id, new User(id, username, email, password, true, roles, reviews));
 
+        tagRepository.saveAll(review.getTags());
         return reviewRepository.save(review);
     }
 
     public Review update(Long id, Review review) {
         Review existingReview = getById(id);
         BeanUtils.copyProperties(review, existingReview, "id");
-        reviewRepository.save(existingReview);
-        return existingReview;
+
+        tagRepository.saveAll(review.getTags());
+
+        Review savedReview = reviewRepository.save(existingReview);
+
+        return savedReview;
     }
 
     public void delete(Long id) {

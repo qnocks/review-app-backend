@@ -7,6 +7,7 @@ import ru.qnocks.reviewapp.domain.Review;
 import ru.qnocks.reviewapp.domain.Tag;
 import ru.qnocks.reviewapp.domain.User;
 import ru.qnocks.reviewapp.dto.ReviewDto;
+import ru.qnocks.reviewapp.dto.TagDto;
 import ru.qnocks.reviewapp.dto.UserDto;
 import ru.qnocks.reviewapp.repository.UserRepository;
 
@@ -52,11 +53,11 @@ public class DtoMapperService {
         return mapper.map(userDto, User.class);
     }
 
-//    public Tag toEntity(TagDto tagDto) {
-//        return mapper.map(tagDto, Tag.class);
-//    }
-//
-//    public TagDto toDto(Tag tag) {
-//        return mapper.map(tag, TagDto.class);
-//    }
+    public Tag toEntity(TagDto tagDto) {
+        return mapper.map(tagDto, Tag.class);
+    }
+
+    public TagDto toDto(Tag tag) {
+        return mapper.map(tag, TagDto.class);
+    }
 }

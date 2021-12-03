@@ -1,6 +1,7 @@
 package ru.qnocks.reviewapp.rest;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,14 +10,16 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.qnocks.reviewapp.domain.Review;
 import ru.qnocks.reviewapp.dto.ReviewDto;
+import ru.qnocks.reviewapp.dto.TagDto;
 import ru.qnocks.reviewapp.security.UserDetailsImpl;
 import ru.qnocks.reviewapp.service.DtoMapperService;
 import ru.qnocks.reviewapp.service.ReviewService;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/reviews")
 @CrossOrigin(origins = {"http://localhost:3000", "https://review-frontend-app.herokuapp.com"})

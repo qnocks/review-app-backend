@@ -15,7 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class TagDto {
 
-    private Long id;
+    private String id;
 
     private String name;
 
