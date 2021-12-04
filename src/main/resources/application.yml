@@ -28,3 +28,8 @@ app:
   jwt:
     secret: ${jwtSecret}
     expiration-time: 600000
+
+  cloudinary:
+    cloud-name: ${cloudinary.cloudName}
+    api-key: ${cloudinary.apiKey}
+    api-secret: ${cloudinary.apiSecret}

@@ -8,10 +8,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.qnocks.reviewapp.domain.Review;
 import ru.qnocks.reviewapp.dto.ReviewDto;
 import ru.qnocks.reviewapp.dto.TagDto;
 import ru.qnocks.reviewapp.security.UserDetailsImpl;
+import ru.qnocks.reviewapp.service.CloudinaryService;
 import ru.qnocks.reviewapp.service.DtoMapperService;
 import ru.qnocks.reviewapp.service.ReviewService;
 
@@ -66,6 +68,14 @@ public class ReviewRestController {
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         reviewService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("{id}/upload")
+    public ResponseEntity<ReviewDto> uploadImage(@PathVariable("id") Long id,
+                                                 @RequestParam("image") MultipartFile file) {
+        // TODO: перенести в update
+        Review review = reviewService.upload(id, file);
+        return new ResponseEntity<>(mapperService.toDto(review), HttpStatus.OK);
     }
 }
 

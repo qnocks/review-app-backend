@@ -7,6 +7,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import ru.qnocks.reviewapp.domain.AuthProvider;
 import ru.qnocks.reviewapp.domain.Review;
 import ru.qnocks.reviewapp.domain.Role;
@@ -30,6 +31,8 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
 
     private final UserService userService;
+
+    private final CloudinaryService cloudinaryService;
 
     private final RoleRepository roleRepository;
 
@@ -80,5 +83,13 @@ public class ReviewService {
 
     public void delete(Long id) {
         reviewRepository.deleteById(id);
+    }
+
+    public Review upload(Long id, MultipartFile file) {
+        String imageLink = cloudinaryService.upload(file);
+
+        Review review = getById(id);
+        review.setImagesLink(imageLink);
+        return update(id, review);
     }
 }
