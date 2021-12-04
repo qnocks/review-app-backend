@@ -56,7 +56,7 @@ public class User {
 //    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 //    @JoinColumn(name = "usr_id")
     private Set<Review> reviews = new HashSet<>();
 }

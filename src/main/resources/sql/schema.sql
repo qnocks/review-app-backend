@@ -23,22 +23,11 @@ CREATE TABLE IF NOT EXISTS role (
     name varchar(20) NOT NULL
 );
 
--- CREATE TABLE IF NOT EXISTS authority (
---     id int PRIMARY KEY,
---     name varchar(30)
--- );
-
 CREATE TABLE IF NOT EXISTS usr_role (
     usr_id bigint REFERENCES usr(id) ON DELETE SET DEFAULT ON UPDATE RESTRICT,
     role_id bigint REFERENCES role(id) ON DELETE SET DEFAULT ON UPDATE RESTRICT,
     CONSTRAINT usr_role_id PRIMARY KEY (usr_id, role_id)
 );
-
--- CREATE TABLE IF NOT EXISTS role_authority (
---     role_id int REFERENCES role(id) ON DELETE SET DEFAULT ON UPDATE RESTRICT,
---     authorities_id int REFERENCES authority(id) ON DELETE SET DEFAULT ON UPDATE RESTRICT,
---     CONSTRAINT role_authorities_id PRIMARY KEY (role_id, authorities_id)
--- );
 
 CREATE TABLE IF NOT EXISTS review (
     id bigint PRIMARY KEY,
@@ -57,12 +46,6 @@ CREATE TABLE IF NOT EXISTS tag (
     id bigint PRIMARY KEY,
     name varchar(20)
 );
-
--- CREATE TABLE IF NOT EXISTS comment (
---     id   int PRIMARY KEY,
---     name varchar(100),
---     review_id int REFERENCES review(id) ON DELETE CASCADE ON UPDATE RESTRICT
--- );
 
 CREATE TABLE IF NOT EXISTS review_tag (
     review_id bigint,
