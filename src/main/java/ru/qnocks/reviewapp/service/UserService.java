@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.qnocks.reviewapp.domain.User;
+import ru.qnocks.reviewapp.dto.UserDto;
 import ru.qnocks.reviewapp.repository.UserRepository;
 
 import java.util.List;
@@ -17,6 +18,8 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+
+    private final DtoMapperService mapperService;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -40,8 +43,13 @@ public class UserService {
     }
 
     @Transactional
-    public User update(Long id, User user) {
+    public User update(Long id, UserDto userDto) {
+        User user = mapperService.toEntity(userDto);
         User existingUser = getById(id);
+
+        if (userDto.getNewPassword() != null && validate(userDto, existingUser)) {
+            user.setPassword(userDto.getNewPassword());
+        }
 
         if (user.getRoles().isEmpty()) {
             existingUser.setUsername(user.getUsername());
@@ -52,13 +60,16 @@ public class UserService {
             BeanUtils.copyProperties(user, existingUser, "id", "password");
         }
 
-        userRepository.save(existingUser);
-        return existingUser;
+        return userRepository.save(existingUser);
     }
 
     @Transactional
     public void delete(Long id) {
         userRepository.deleteById(id);
+    }
+
+    private boolean validate(UserDto userDto, User user) {
+        return passwordEncoder.matches(userDto.getPassword(), user.getPassword());
     }
 
 

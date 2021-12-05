@@ -51,8 +51,8 @@ public class UserRestController {
     @PutMapping("{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<UserDto> update(@PathVariable("id") Long id, @RequestBody UserDto userDto) {
-        User user = mapperService.toEntity(userDto);
-        User updatedUser = userService.update(id, user);
+//        User user = mapperService.toEntity(userDto);
+        User updatedUser = userService.update(id, userDto);
         return new ResponseEntity<>(mapperService.toDto(updatedUser), HttpStatus.OK);
     }
 

@@ -23,6 +23,8 @@ public class UserDto {
 
     private String password;
 
+    private String newPassword;
+
     private Boolean active;
 
     private Set<Role> roles = new HashSet<>();
