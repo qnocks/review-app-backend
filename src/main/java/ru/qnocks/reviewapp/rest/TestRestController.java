@@ -28,53 +28,15 @@ public class TestRestController {
 
     private final CloudinaryService cloudinaryService;
 
-//    private final TagRepository tagRepository;
 
     private final DtoMapperService mapperService;
 
-    @GetMapping("/all")
-    public String allAccess() {
-        return "Public Content.";
-    }
-
-    @GetMapping("/user")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public String userAccess() {
-        return "User Content.";
-    }
-
-    @GetMapping("/admin")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String adminAccess() {
-        return "Admin Board.";
-    }
-
     @GetMapping("/search")
     public List<Review> getReviews(@RequestParam("search") String search) {
-        List<Review> reviews = searchService.findReviews(search);
-        return reviews;
+//        List<Review> reviews = searchService.findReviews(search);
+//        return reviews;
+        return null;
     }
-
-    @GetMapping("/reviews")
-    public List<ReviewDto> getAllReviews() {
-        return reviewService.getAll().stream()
-                .map(mapperService::toDto)
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping("/users")
-    public List<UserDto> getAllUsers() {
-        return userService.getAll().stream()
-                .map(mapperService::toDto)
-                .collect(Collectors.toList());
-    }
-
-//    @GetMapping("/tags")
-//    public List<TagDto> getAllTags() {
-//        return tagRepository.findAll().stream()
-//                .map(mapperService::toDto)
-//                .collect(Collectors.toList());
-//    }
 
     @PostMapping("/upload")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")

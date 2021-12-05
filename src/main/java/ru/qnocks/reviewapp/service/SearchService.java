@@ -6,6 +6,7 @@ import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.qnocks.reviewapp.domain.Review;
@@ -22,7 +23,7 @@ public class SearchService {
     @PersistenceContext
     private final EntityManager entityManager;
 
-    public List<Review> findReviews(String text) {
+    public Page<Review> findReviews(String text) {
 
         FullTextEntityManager entityManager = Search.getFullTextEntityManager(this.entityManager);
 
@@ -39,10 +40,11 @@ public class SearchService {
 
         FullTextQuery jpaQuery = entityManager.createFullTextQuery(query, Review.class);
 
-        List<Review> reviews = null;
+        List<Review> reviews = jpaQuery.getResultList();
 
-        reviews = jpaQuery.getResultList();
+        // TODO: we should have pageable as a parameter of the method
+        Pageable pageable = PageRequest.of(0, 2, Sort.by("id"));
 
-        return reviews;
+        return new PageImpl<>(reviews, pageable, jpaQuery.getResultSize());
     }
 }

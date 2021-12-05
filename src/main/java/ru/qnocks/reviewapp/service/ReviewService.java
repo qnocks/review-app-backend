@@ -2,23 +2,21 @@ package ru.qnocks.reviewapp.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.Hibernate;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import ru.qnocks.reviewapp.domain.AuthProvider;
 import ru.qnocks.reviewapp.domain.Review;
 import ru.qnocks.reviewapp.domain.Role;
-import ru.qnocks.reviewapp.domain.User;
 import ru.qnocks.reviewapp.repository.ReviewRepository;
 import ru.qnocks.reviewapp.repository.RoleRepository;
 import ru.qnocks.reviewapp.repository.TagRepository;
 import ru.qnocks.reviewapp.security.UserDetailsImpl;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -32,14 +30,19 @@ public class ReviewService {
 
     private final UserService userService;
 
+    private final SearchService searchService;
+
     private final CloudinaryService cloudinaryService;
 
     private final RoleRepository roleRepository;
 
     private final TagRepository tagRepository;
 
-    public List<Review> getAll() {
-        return reviewRepository.findAll();
+    public Page<Review> getAll(Pageable pageable, String search) {
+        if (search != null) {
+            return searchService.findReviews(search);
+        }        
+        return reviewRepository.findAll(pageable);
     }
 
     @Transactional

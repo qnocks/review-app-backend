@@ -2,6 +2,9 @@ package ru.qnocks.reviewapp.rest;
 
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,10 +35,9 @@ public class ReviewRestController {
     private final DtoMapperService mapperService;
 
     @GetMapping
-    public ResponseEntity<List<ReviewDto>> list() {
-        List<ReviewDto> reviews = reviewService.getAll().stream()
-                .map(mapperService::toDto)
-                .collect(Collectors.toList());
+    public ResponseEntity<Page<ReviewDto>> list(@PageableDefault(sort = "id") Pageable pageable,
+                                                @RequestParam(value = "search", required = false) String search) {
+        Page<ReviewDto> reviews = reviewService.getAll(pageable, search).map(mapperService::toDto);
         return new ResponseEntity<>(reviews, HttpStatus.OK);
     }
 
@@ -69,8 +71,6 @@ public class ReviewRestController {
         reviewService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-
 
     @PostMapping("{id}/upload")
     public ResponseEntity<ReviewDto> uploadImage(@PathVariable("id") Long id,
