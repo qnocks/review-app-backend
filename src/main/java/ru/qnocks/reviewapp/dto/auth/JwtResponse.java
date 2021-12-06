@@ -3,7 +3,6 @@ package ru.qnocks.reviewapp.dto.auth;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import ru.qnocks.reviewapp.domain.Review;
 import ru.qnocks.reviewapp.dto.ReviewDto;
 
 import java.util.List;

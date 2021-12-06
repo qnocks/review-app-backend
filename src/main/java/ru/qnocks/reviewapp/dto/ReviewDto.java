@@ -1,12 +1,9 @@
 package ru.qnocks.reviewapp.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import ru.qnocks.reviewapp.domain.Content;
 
-import javax.xml.bind.annotation.XmlSeeAlso;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,6 +36,5 @@ public class ReviewDto {
     private Long userId;
 
     @JsonIgnoreProperties("reviews")
-//    @JsonManagedReference
     private Set<TagDto> tags = new HashSet<>();
 }

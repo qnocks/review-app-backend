@@ -30,15 +30,9 @@ public class User {
     @Column(name = "email")
     private String email;
 
-//    private String imageUrl;
-
-//    @JsonIgnore
     @NonNull
     @Column(name = "password")
     private String password;
-
-//    @Enumerated(EnumType.STRING)
-//    private AuthProvider provider;
 
     @Column(name = "active")
     private Boolean active = true;
@@ -50,13 +44,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles = new HashSet<>();
 
-//    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-//    @JoinColumn(name = "usr_id")
-//    @JsonManagedReference
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-
     @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    @JoinColumn(name = "usr_id")
     private Set<Review> reviews = new HashSet<>();
 }

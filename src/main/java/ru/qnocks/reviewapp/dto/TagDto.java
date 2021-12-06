@@ -1,7 +1,5 @@
 package ru.qnocks.reviewapp.dto;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.util.HashSet;
@@ -19,6 +17,5 @@ public class TagDto {
 
     private String name;
 
-//    @JsonBackReference
     private Set<ReviewDto> reviews = new HashSet<>();
 }

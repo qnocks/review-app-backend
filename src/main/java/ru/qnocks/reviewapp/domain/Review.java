@@ -58,7 +58,6 @@ public class Review {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "content")
 //    @Analyzer(definition = "eng")
-//    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     @IndexedEmbedded
     private Content content;
 
@@ -85,13 +84,6 @@ public class Review {
     @Column(name = "images_link")
     private String imagesLink;
 
-//    @OneToMany(mappedBy = "review")
-//    private Set<Comment> comments;
-
-//    @JsonBackReference
-//    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-
-//    @JsonIgnore
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;

@@ -3,6 +3,7 @@ package ru.qnocks.reviewapp.service;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.qnocks.reviewapp.domain.Review;
 import ru.qnocks.reviewapp.domain.Tag;
 import ru.qnocks.reviewapp.domain.User;
@@ -12,6 +13,7 @@ import ru.qnocks.reviewapp.dto.UserDto;
 import ru.qnocks.reviewapp.repository.UserRepository;
 
 @Service
+@Transactional
 public class DtoMapperService {
 
     private final ModelMapper mapper;
@@ -38,7 +40,7 @@ public class DtoMapperService {
         });
 
         User user = userRepository.findById(reviewDto.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("Cannot find Review with id " + reviewDto.getUserId()));
+                .orElseThrow(() -> new IllegalArgumentException("Cannot find User with id " + reviewDto.getUserId()));
 
         Review review = mapper.map(reviewDto, Review.class);
         review.setUser(user);
