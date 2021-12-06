@@ -40,7 +40,7 @@ public class ReviewService {
 
     public Page<Review> getAll(Pageable pageable, String search) {
         if (search != null) {
-            return searchService.findReviews(search);
+            return searchService.findReviews(search, pageable);
         }        
         return reviewRepository.findAll(pageable);
     }
