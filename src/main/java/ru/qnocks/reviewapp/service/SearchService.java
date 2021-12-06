@@ -23,7 +23,7 @@ public class SearchService {
     @PersistenceContext
     private final EntityManager entityManager;
 
-    public Page<Review> findReviews(String text, Pageable pageable) {
+    public List<Review> findReviews(String text) {
         FullTextEntityManager entityManager = Search.getFullTextEntityManager(this.entityManager);
 
         QueryBuilder queryBuilder = entityManager.getSearchFactory()
@@ -39,10 +39,11 @@ public class SearchService {
 
         FullTextQuery jpaQuery = entityManager.createFullTextQuery(query, Review.class);
 
-        jpaQuery.setMaxResults(pageable.getPageSize());
+//        jpaQuery.setMaxResults(pageable.getPageSize());
 
         List<Review> reviews = jpaQuery.getResultList();
 
-        return new PageImpl<>(reviews, pageable, jpaQuery.getResultSize());
+        return reviews;
+//        return new PageImpl<>(reviews, pageable, jpaQuery.getResultSize());
     }
 }

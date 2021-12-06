@@ -12,6 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.qnocks.reviewapp.dto.ReviewDto;
 import ru.qnocks.reviewapp.service.ReviewService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/reviews")
 @CrossOrigin(origins = {"http://localhost:3000", "https://review-frontend-app.herokuapp.com"})
@@ -21,9 +23,13 @@ public class ReviewRestController {
     private final ReviewService reviewService;
 
     @GetMapping
-    public ResponseEntity<Page<ReviewDto>> list(@PageableDefault(sort = "id") Pageable pageable,
-                                                @RequestParam(value = "search", required = false) String search) {
-        return new ResponseEntity<>(reviewService.getAll(pageable, search), HttpStatus.OK);
+    public ResponseEntity<Page<ReviewDto>> list(@PageableDefault(sort = "id") Pageable pageable) {
+        return new ResponseEntity<>(reviewService.getAll(pageable), HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ReviewDto>> search(@RequestParam("search") String search) {
+        return new ResponseEntity<>(reviewService.search(search), HttpStatus.OK);
     }
 
     @GetMapping("{id}")

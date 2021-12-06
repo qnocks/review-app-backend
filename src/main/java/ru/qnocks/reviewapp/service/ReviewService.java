@@ -12,7 +12,9 @@ import ru.qnocks.reviewapp.domain.Review;
 import ru.qnocks.reviewapp.dto.ReviewDto;
 import ru.qnocks.reviewapp.repository.ReviewRepository;
 
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -31,11 +33,15 @@ public class ReviewService {
     private final TagService tagService;
 
     @Transactional(readOnly = true)
-    public Page<ReviewDto> getAll(Pageable pageable, String search) {
-        if (search != null) {
-            return searchService.findReviews(search, pageable).map(mapperService::toDto);
-        }
+    public Page<ReviewDto> getAll(Pageable pageable) {
         return reviewRepository.findAll(pageable).map(mapperService::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReviewDto> search(String search) {
+        return searchService.findReviews(search).stream()
+                .map(mapperService::toDto)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
