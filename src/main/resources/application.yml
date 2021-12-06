@@ -20,7 +20,7 @@ spring:
 app:
   jwt:
     secret: ${jwtSecret}
-    expiration-time: 600000
+    expiration-time: 2400000
 
   cloudinary:
     cloud-name: ${cloudinary.cloudName}
