@@ -1,5 +1,6 @@
 package ru.qnocks.reviewapp.config;
 
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.search.jpa.FullTextEntityManager;
@@ -22,7 +23,7 @@ public class SearchBuildConfig implements ApplicationListener<ApplicationReadyEv
     private final EntityManager entityManager;
 
     @Override
-    public void onApplicationEvent(ApplicationReadyEvent event) {
+    public void onApplicationEvent(@NonNull ApplicationReadyEvent event) {
         try {
             FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
             fullTextEntityManager.createIndexer().startAndWait();

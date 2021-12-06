@@ -28,16 +28,6 @@ import java.util.Set;
         })
     }
 )
-@AnalyzerDef(
-        name = "rus",
-        tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
-        filters = {
-                @TokenFilterDef(factory = LowerCaseFilterFactory.class),
-                @TokenFilterDef(factory = SnowballPorterFilterFactory.class, params = {
-                        @Parameter(name = "language", value = "Russian")
-                })
-        }
-)
 @Getter
 @Setter
 @ToString(exclude = {"user", "tags"})
@@ -51,24 +41,24 @@ public class Review {
     private Long id;
 
     @Column(name = "name")
-//    @Analyzer(definition = "eng")
+    @Analyzer(definition = "eng")
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String name;
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "content")
-//    @Analyzer(definition = "eng")
+    @Analyzer(definition = "eng")
     @IndexedEmbedded
     private Content content;
 
     @Column(name = "content_name")
-//    @Analyzer(definition = "eng")
+    @Analyzer(definition = "eng")
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String contentName;
 
     @Length(max = 100000)
     @Column(name = "txt")
-//    @Analyzer(definition = "eng")
+    @Analyzer(definition = "eng")
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String text;
 

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -15,6 +16,7 @@ import java.util.Objects;
 
 @Slf4j
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class CloudinaryService {
 
@@ -40,7 +42,6 @@ public class CloudinaryService {
 
     @SneakyThrows
     private File toFile(MultipartFile multipartFile) {
-        // TODO: probably NPE raise
         File file = new File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
         FileOutputStream fos = new FileOutputStream(file);
         fos.write(multipartFile.getBytes());

@@ -10,6 +10,7 @@ import ru.qnocks.reviewapp.dto.TagDto;
 import ru.qnocks.reviewapp.repository.TagRepository;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -44,6 +45,10 @@ public class TagService {
     public TagDto create(TagDto tagDto) {
         Tag tag = mapperService.toEntity(tagDto);
         return mapperService.toDto(tagRepository.save(tag));
+    }
+
+    public void saveAll(Set<Tag> tags) {
+        tagRepository.saveAll(tags);
     }
 
     public TagDto update(Long id, TagDto tagDto) {

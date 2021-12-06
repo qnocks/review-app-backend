@@ -117,6 +117,8 @@ public class AuthService {
         }
 
         user.setRoles(roles);
+        user.setActive(true);
+
         userService.create(user);
     }
 

@@ -5,21 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ru.qnocks.reviewapp.domain.Review;
-import ru.qnocks.reviewapp.domain.Role;
 import ru.qnocks.reviewapp.dto.ReviewDto;
 import ru.qnocks.reviewapp.repository.ReviewRepository;
-import ru.qnocks.reviewapp.repository.RoleRepository;
-import ru.qnocks.reviewapp.repository.TagRepository;
-import ru.qnocks.reviewapp.security.UserDetailsImpl;
 
-import java.util.Collection;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -29,17 +22,13 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
 
-    private final UserService userService;
-
     private final DtoMapperService mapperService;
 
     private final SearchService searchService;
 
     private final CloudinaryService cloudinaryService;
 
-    private final RoleRepository roleRepository;
-
-    private final TagRepository tagRepository;
+    private final TagService tagService;
 
     @Transactional(readOnly = true)
     public Page<ReviewDto> getAll(Pageable pageable, String search) {
@@ -67,7 +56,7 @@ public class ReviewService {
         Set<Review> reviews = review.getUser().getReviews();
         reviews.add(review);
 
-        tagRepository.saveAll(review.getTags());
+        tagService.saveAll(review.getTags());
 
         return mapperService.toDto(reviewRepository.save(review));
     }
@@ -78,7 +67,7 @@ public class ReviewService {
 
         BeanUtils.copyProperties(review, existingReview, "id");
 
-        tagRepository.saveAll(review.getTags());
+        tagService.saveAll(review.getTags());
 
         return mapperService.toDto(reviewRepository.save(existingReview));
     }
